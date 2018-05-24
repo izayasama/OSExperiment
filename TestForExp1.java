@@ -25,7 +25,7 @@ public class TestForExp1 {
                 Integer requiredTime = Integer.parseInt(processInfo[1]);
                 Integer piority = Integer.parseInt(processInfo[2]);
                 queue.addProcess(name, requiredTime, piority);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 i--;
                 System.out.println("Format error, please try again.");
             }

@@ -42,7 +42,7 @@ public class TestForExp2 {
                 }
 
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println("Format error, please try again.");
             }
         }
