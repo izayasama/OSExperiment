@@ -99,11 +99,18 @@ public class ReadyQueue {
                 queueTail = null;
             }
             runningProcess.run();
+            System.out.println("Current running process is " + runningProcess.name + ".");
+
             if (runningProcess.status == true) {
-                System.out.println("Current running process is " + runningProcess.name + ".");
-                addProcess(runningProcess);
                 System.out.println("Remaining time: " +runningProcess.requiredTime);
-                System.out.println("Piority: " + runningProcess.piority);
+                System.out.println("Priority: " + runningProcess.piority);
+                System.out.println();
+                showReadyQueue();
+                addProcess(runningProcess);
+            } else {
+                System.out.println("The process " + runningProcess.name + " has finished.");
+                System.out.println();
+                showReadyQueue();
             }
             return true;
         }
@@ -111,6 +118,24 @@ public class ReadyQueue {
             System.out.println("Running out of process!");
             return false;
         }
+    }
+
+    public void showReadyQueue(){
+        PCB PCBPtr = queueHead;
+
+        if (PCBPtr == null) {
+            System.out.println("There is no process in standyby queue.\n");
+            return;
+        }
+        System.out.println("The current standby process(es)");
+        while (PCBPtr != null) {
+            System.out.print(PCBPtr.name);
+            if(PCBPtr.next != null) {
+                System.out.print("->");
+            }
+            PCBPtr = PCBPtr.next;
+        }
+        System.out.println("\n");
     }
 
 

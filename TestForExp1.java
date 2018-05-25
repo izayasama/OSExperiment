@@ -23,8 +23,8 @@ public class TestForExp1 {
                 String[] processInfo = processStr.split(" ");
                 String name = processInfo[0];
                 Integer requiredTime = Integer.parseInt(processInfo[1]);
-                Integer piority = Integer.parseInt(processInfo[2]);
-                queue.addProcess(name, requiredTime, piority);
+                Integer priority = Integer.parseInt(processInfo[2]);
+                queue.addProcess(name, requiredTime, priority);
             } catch (Exception e) {
                 i--;
                 System.out.println("Format error, please try again.");
