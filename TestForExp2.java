@@ -11,7 +11,7 @@ public class TestForExp2 {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             System.out.println("Enter X to jump out program.");
-            System.out.println("Enter 1 with process info to create a process." +
+            System.out.println("Enter 1 with process info to create a process. " +
                     "Enter 0 with process name to terminate a process");
             try {
                 String processStr = reader.readLine();

@@ -9,7 +9,7 @@ public class TestForExp3 {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             System.out.println("Enter X to jump out program.");
-            System.out.println("Enter 1 with file info to create a file." +
+            System.out.println("Enter 1 with file info to create a file. " +
                     "Enter 0 with process name to terminate a process");
             try {
                 String processStr = reader.readLine();

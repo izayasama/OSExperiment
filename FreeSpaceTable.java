@@ -79,9 +79,7 @@ class Area {
 
     public void showDiskInfo (){
         System.out.println("Physical Record\tTrack\tCylinder");
-        for (int i = 0; i < blocks; i++) {
-            System.out.println(((StartIndex + i) % 6) + "\t\t\t" + (((StartIndex + i) / 6)%20) + "\t\t\t\t" + (((StartIndex + i) / 6) / 20));
-        }
+        System.out.println(((StartIndex) % 6) + "\t\t\t" + (((StartIndex) / 6)%20) + "\t\t\t\t" + (((StartIndex) / 6) / 20));
     }
 
     @Override
