@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class FreeSpaceTable {
     ArrayList<Area> fsTable;
     ArrayList<File> fileList;
+    public static Area DeletedItem = new Area(-1, -1);
 
     public FreeSpaceTable() {
         fsTable = new ArrayList<>();
@@ -13,6 +14,7 @@ public class FreeSpaceTable {
     }
 
     public boolean createFile(File file) {
+        //allocspace的一个包装函数
         Area area;
         area = allocSpace(file.fileArea.blocks);
         if (area == null) {
@@ -25,6 +27,7 @@ public class FreeSpaceTable {
     }
 
     public Area allocSpace(int size) {
+        //寻找可以分配的表项
         for (Area fsArea :
                 fsTable) {
             if (fsArea.blocks > size) {
@@ -36,11 +39,12 @@ public class FreeSpaceTable {
                 return new Area(fsArea.StartIndex, size);
             }
         }
-        return null;
+        return null;    //分配失败
     }
     public boolean freeSpace(String name) {
         File file = null;
         boolean flag = false;
+        //在列表里查找对应文件
         for (int i = 0; i < fileList.size(); i++) {
             if (fileList.get(i).name.equals(name)) {
                 file = fileList.get(i);
@@ -50,17 +54,23 @@ public class FreeSpaceTable {
         if(flag == false){
             return false;
         }
-        for (Area fsArea :
-                fsTable) {
-            if (file.fileArea.StartIndex == fsArea.StartIndex + fsArea.blocks) {
-                fsTable.remove(fsArea);
-                file.fileArea.StartIndex = fsArea.StartIndex;
-                file.fileArea.blocks += fsArea.blocks;
-            } else if (fsArea.StartIndex == file.fileArea.StartIndex + file.fileArea.blocks) {
-                fsTable.remove(fsArea);
-                file.fileArea.blocks += fsArea.blocks;
+        //搜索列表，将需要合并的表项指定为 DeletedItem
+        for (int i = 0; i < fsTable.size(); i++) {
+            //分两种情况
+            if (file.fileArea.StartIndex == fsTable.get(i).StartIndex + fsTable.get(i).blocks) {
+                file.fileArea.StartIndex = fsTable.get(i).StartIndex;
+                file.fileArea.blocks += fsTable.get(i).blocks;
+                fsTable.set(i, FreeSpaceTable.DeletedItem);
+
+            } else if (fsTable.get(i).StartIndex == file.fileArea.StartIndex + file.fileArea.blocks) {
+
+                file.fileArea.blocks += fsTable.get(i).blocks;
+                fsTable.set(i, FreeSpaceTable.DeletedItem);
             }
         }
+        //删除两次，可能目标表项前后各有一个需要合并的表项
+        fsTable.remove(FreeSpaceTable.DeletedItem);
+        fsTable.remove(FreeSpaceTable.DeletedItem);
         fsTable.add(file.fileArea);
         fileList.remove(file);
         return true;
@@ -78,6 +88,7 @@ class Area {
     }
 
     public void showDiskInfo (){
+        //打印物理块号、磁道号和扇区号
         System.out.println("Physical Record\tTrack\tCylinder");
         System.out.println(((StartIndex) % 6) + "\t\t\t" + (((StartIndex) / 6)%20) + "\t\t\t\t" + (((StartIndex) / 6) / 20));
     }
